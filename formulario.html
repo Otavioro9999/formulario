@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário de Cadastro</title>
+  <style>
+    body {
+      font-family: Verdana, Geneva, sans-serif;
+      background-color: #f9f9f9;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 15px;
+      color: #000;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+      color: #000;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px 10px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: inherit;
+      background-color: #fff;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #000;
+    }
+
+    .opcoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 5px;
+    }
+
+    .opcoes label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: normal;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #000;
+      border-radius: 4px;
+      background-color: #fff;
+      color: #000;
+      font-size: 14px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    button:hover {
+      background-color: #f0f0f0;
+    }
+
+    .resultado {
+      margin-top: 15px;
+      padding: 10px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Cadastro</h1>
+<form id="cadastro-form">
+  <label for="nome">Nome</label>
+  <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
+
+  <label for="email">E-mail</label>
+  <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
+
+  <label for="senha">Senha</label>
+  <input type="password" id="senha" name="senha" placeholder="Senha" required>
+
+  <label for="idade">Idade</label>
+  <input type="number" id="idade" name="idade" min="1" max="120">
+
+  <label for="nascimento">Data de Nascimento</label>
+  <input type="date" id="nascimento" name="nascimento">
+
+  <label>Gênero</label>
+  <div class="opcoes">
+    <label><input type="radio" name="genero" value="Masculino" required> Masculino</label>
+    <label><input type="radio" name="genero" value="Feminino"> Feminino</label>
+    <label><input type="radio" name="genero" value="Outro"> Outro</label>
+  </div>
+
+  <label>Hobbies</label>
+  <div class="opcoes">
+    <label><input type="checkbox" name="hobbies" value="Leitura"> Leitura</label>
+    <label><input type="checkbox" name="hobbies" value="Esportes"> Esportes</label>
+    <label><input type="checkbox" name="hobbies" value="Música"> Música</label>
+  </div>
+
+  <label for="estado">Estado</label>
+  <select id="estado" name="estado" required>
+    <option value="">Selecione...</option>
+    <option value="SP">São Paulo</option>
+    <option value="PR">Paraná</option>
+    <option value="RS">Rio Grande do Sul</option>
+    <option value="SC">Santa Catarina</option>
+  </select>
+
+  <button type="button" onclick="processarFormulario()">Enviar</button>
+</form>
+
+<div class="resultado" id="areaResultado"></div>
+
+<script>
+function processarFormulario() {
+  const formulario = document.getElementById('cadastro-form');
+  const dadosFormulario = new FormData(formulario);
+  const objetoDados = {};
+
+  dadosFormulario.forEach((valor, campo) => {
+    if (objetoDados[campo]) {
+      if (!Array.isArray(objetoDados[campo])) {
+        objetoDados[campo] = [objetoDados[campo]];
+      }
+      objetoDados[campo].push(valor);
+    } else {
+      objetoDados[campo] = valor;
+    }
+  });
+
+  const campoResultado = document.getElementById('areaResultado');
+  campoResultado.textContent = JSON.stringify(objetoDados, null, 2);
+  console.log(objetoDados);
+  alert('Formulário enviado!');
+}
+</script>
+
+</body>
+</html>
